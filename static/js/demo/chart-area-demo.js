@@ -28,16 +28,20 @@ function number_format(number, decimals, dec_point, thousands_sep) {
 }
 
 
-
-
-
-
+function getStatus(taskID) {
+  $.ajax({
+    url: `/diagram_update/`,
+    method: 'GET'
+  })
+                        .done((res) => {
 // Area Chart Example
 var ctx = document.getElementById("myAreaChart");
 var myLineChart = new Chart(ctx, {
   type: 'line',
   data: {
-    labels: ["2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011",
+    labels:
+    // res.labels,
+        ["2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011",
                   "2012", "2013", "2323"],
     datasets: [{
       label: "Earnings",
@@ -52,15 +56,17 @@ var myLineChart = new Chart(ctx, {
       pointHoverBorderColor: "rgba(78, 115, 223, 1)",
       pointHitRadius: 10,
       pointBorderWidth: 2,
-      data: [100, 320, 453, 234, 553, 665, 345, 123, 432, 545, 654, 345, 332, 456, 234],
+      data:
+          // res.data,
+      [100, 320, 453, 234, 553, 665, 345, 123, 432, 545, 654, 345, 332, 456, 234],
     }],
   },
   options: {
     maintainAspectRatio: false,
     layout: {
       padding: {
-        left: 10,
-        right: 25,
+        left: 100,
+        right: 250,
         top: 25,
         bottom: 0
       }
@@ -122,6 +128,14 @@ var myLineChart = new Chart(ctx, {
     }
   }
 });
-
+setTimeout(function() {
+getStatus(res.task_id);
+}, 10000);
+})
+  .fail((err) => {
+    console.log(err)
+  });
+}
+getStatus(1)
 
 

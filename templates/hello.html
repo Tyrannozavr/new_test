@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>My learning javascript</title>
+</head>
+<body>
+<h1>hello, this will be a diagram here</h1>
+<canvas id="myChart" width="400" height="400"></canvas>
+<!-- График --><div id="chart">
+<link rel="stylesheet" href="https://bootstraptema.ru/plugins/2015/bootstrap3/bootstrap.min.css" />
+<link type="text/css" rel="StyleSheet" href="https://bootstraptema.ru/plugins/2016/shieldui/style.css" />
+<script src="https://bootstraptema.ru/plugins/jquery/jquery-1.11.3.min.js"></script>
+<script src="https://bootstraptema.ru/plugins/2016/shieldui/script.js"></script>
+<br><br><br>
+<div class="container">
+<div class="row">
+<div class="col-md-8 col-md-offset-2">
+    <script src="{% static 'js/demo/my_js.js' %}"></script><!-- /.График -->
+</div><!-- /.col-md-8 col-md-offset-2 -->
+</div><!-- /.row -->
+</div><!-- /.container -->
+</div>
+</body>
+</html>
