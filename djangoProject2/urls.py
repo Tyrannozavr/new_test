@@ -19,8 +19,10 @@ from .views import *
 
 urlpatterns = [
     path('', index, name='index'),
+    path('register/', register, name='register'),
+    path('logout/', logout_cust, name='logout'),
+    path('login/', login_cust, name='login'),
     path('admin/', admin.site.urls),
     path('charts/', charts, name='charts'),
     path('diagram_update/', diagram_update, name='diagram_update'),
-    path('aaa/', aaa, name='aaa')
 ]

@@ -31,7 +31,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'index' %}">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
@@ -40,10 +40,9 @@
 
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
-
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="{% url 'index' %}">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
@@ -109,8 +108,8 @@
                 <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Login Screens:</h6>
-                        <a class="collapse-item" href="../../static/login.html">Login</a>
-                        <a class="collapse-item" href="../../static/register.html">Register</a>
+                        <a class="collapse-item" href="login.html">Login</a>
+                        <a class="collapse-item" href="register.html">Register</a>
                         <a class="collapse-item" href="../../static/forgot-password.html">Forgot Password</a>
                         <div class="collapse-divider"></div>
                         <h6 class="collapse-header">Other Pages:</h6>
@@ -153,6 +152,7 @@
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
+
         <div id="content-wrapper" class="d-flex flex-column">
 
             <!-- Main Content -->
@@ -330,7 +330,7 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ user }}</span>
                                 <img class="img-profile rounded-circle"
                                     src="../../static/img/undraw_profile.svg">
                             </a>
@@ -350,10 +350,21 @@
                                     Activity Log
                                 </a>
                                 <div class="dropdown-divider"></div>
+
+
+
+{% if user.is_authenticated %}
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
                                 </a>
+{% else %}
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Login
+                                </a>
+{% endif %}
+
                             </div>
                         </li>
 
@@ -364,7 +375,7 @@
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-
+{% block dashboard %}
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
@@ -458,7 +469,7 @@
                             </div>
                         </div>
                     </div>
-
+{% endblock %}
                     <!-- Content Row -->
 
                     <div class="row">
@@ -516,6 +527,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <!-- Card Body -->
                                 <div class="card-body">
                                     <div class="chart-pie pt-4 pb-2">
@@ -536,6 +548,7 @@
                             </div>
                         </div>
                     </div>
+                                {% block content %}
 
                     <!-- Content Row -->
                     <div class="row">
@@ -581,7 +594,6 @@
                                     </div>
                                 </div>
                             </div>
-
                             <!-- Color System -->
                             <div class="row">
                                 <div class="col-lg-6 mb-4">
@@ -731,12 +743,12 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="../../static/login.html">Logout</a>
+                    <a class="btn btn-primary" href="{% url 'logout' %}">Logout</a>
                 </div>
             </div>
         </div>
     </div>
-
+{% endblock %}
     <!-- Bootstrap core JavaScript-->
     <script src="../../static/vendor/jquery/jquery.min.js"></script>
     <script src="../../static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
