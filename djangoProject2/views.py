@@ -31,7 +31,7 @@ def charts(request):
             id = int(request.POST.get('id'))
             obj = model.objects.get(id=id)
             obj.delete()
-    a = model.objects.all()
+    a = model.objects.all().order_by('id')
     data = a
     categories = [f"{i.id}" for i in a]
     values = [float(i.current) for i in a]
@@ -48,6 +48,7 @@ def diagram_json(request):
     a = model.objects.all()
     labels = [f"{i.id}" for i in a]
     values = [float(i.current) for i in a]
+    a.s
     # labels = ["2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2323"]
     # values = [100, 320, 453, 234, 553, 665, 345, 123, 432, 545, 654, 345, 332, 456, 234]
     result = {
