@@ -1,0 +1,95 @@
+<link rel="stylesheet" href="https://bootstraptema.ru/plugins/2015/bootstrap3/bootstrap.min.css" />
+<link type="text/css" rel="StyleSheet" href="https://bootstraptema.ru/plugins/2016/shieldui/style.css" />
+<script src="https://bootstraptema.ru/plugins/jquery/jquery-1.11.3.min.js"></script>
+<script src="https://bootstraptema.ru/plugins/2016/shieldui/script.js"></script>
+
+<br><br><br>
+
+<div class="container">
+<div class="row">
+<div class="col-md-8 col-md-offset-2">
+
+
+<div class="container">
+<div class="row">
+<div class="col-md-8 col-md-offset-2">
+
+<!-- График --><div id="chart">
+
+<script>
+    var var_one = "{{ categories }}"
+ $(document).ready(function () {
+ $("#chart").shieldChart({
+ theme: "light",
+ primaryHeader: {
+ text: "Обзор бюджета"
+ },
+ exportOptions: {
+ image: false,
+ print: false
+ },
+ axisX: {
+ categoricalValues:
+     var_one
+ },
+ tooltipSettings: {
+ chartBound: true,
+ axisMarkers: {
+ enabled: true,
+ mode: 'xy'
+ }
+ },
+ dataSeries: [{
+ seriesType: 'line',
+ collectionAlias: "Бюджет в тысячях",
+ data:
+     {{ values }}
+ }]
+ });
+ });
+ </script><!-- /.График -->
+
+    {{ categories }} {{ values }}
+
+</div><!-- /.col-md-8 col-md-offset-2 -->
+</div><!-- /.row -->
+</div><!-- /.container -->
+
+</div><!-- /.col-md-8 col-md-offset-2 -->
+</div><!-- /.row -->
+</div><!-- /.container -->
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">id</th>
+      <th scope="col">current</th>
+      <th scope="col">sts</th>
+    </tr>
+  </thead>
+  <tbody>
+      {% for i in data %}
+    <tr>
+        <td>{{ i.id }}</td>
+        <td>{{ i.current }} </td>
+        <td>{{ i.sts }}</td>
+        <td>
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="id" value="{{ i.id }}">
+                <input type="submit" name="update" value="Подтвердить">
+                <input type="submit" name="delete" value="delete">
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<form method="post">
+    <table>
+        {% csrf_token %}
+        {{ form }}
+    </table>
+    <input type="submit" value="submit" name="create">
+</form>
+</div>
