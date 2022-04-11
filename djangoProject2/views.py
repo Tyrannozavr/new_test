@@ -54,7 +54,6 @@ def diagram_json(request):
         'values': values,
         'labels': labels,}
 
-    print(result)
     return JsonResponse(result, status=200)
 
 
