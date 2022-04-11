@@ -24,5 +24,5 @@ urlpatterns = [
     path('login/', login_cust, name='login'),
     path('admin/', admin.site.urls),
     path('charts/', charts, name='charts'),
-    path('diagram_update/', diagram_update, name='diagram_update'),
+    path('diagram_update/', diagram_json, name='diagram_update'),
 ]

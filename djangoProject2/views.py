@@ -3,21 +3,68 @@ from django.http.response import JsonResponse, HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
+from diagrams.models import *
+from .forms import Current_value
 
 def index(request):
     return render(request, 'index/index.html')
 
 def charts(request):
-    return render(request, 'index/charts.html')
+    form = Current_value()
+    if request.user.username == 'user_one':
+         model = Ai_one
+    elif request.user.username == 'user_two':
+        model = Ai_two
+    else:
+        return redirect('/')
+    if request.POST:
+        if request.POST.get('update'):
+            id = int(request.POST.get('id'))
+            obj = model.objects.get(id=id)
+            obj.sts = 2
+            obj.save()
+        elif request.POST.get('create'):
+            current = request.POST.get('current', 0)
+            sts = request.POST.get('sts', 0)
+            model.objects.create(current=current, sts=sts)
+        elif request.POST.get('delete'):
+            id = int(request.POST.get('id'))
+            obj = model.objects.get(id=id)
+            obj.delete()
+    a = model.objects.all()
+    data = a
+    categories = [f"{i.id}" for i in a]
+    values = [float(i.current) for i in a]
+    return render(request, 'index/charts.html', {'form':form, 'data':data, 'categories':categories, 'values':values})
+
+
+def diagram_json(request):
+    if request.user.username == 'user_one':
+         model = Ai_one
+    elif request.user.username == 'user_two':
+        model = Ai_two
+    else:
+        return redirect('/')
+    a = model.objects.all()
+    labels = [f"{i.id}" for i in a]
+    values = [float(i.current) for i in a]
+    # labels = ["2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2323"]
+    # values = [100, 320, 453, 234, 553, 665, 345, 123, 432, 545, 654, 345, 332, 456, 234]
+    result = {
+        'values': values,
+        'labels': labels,}
+
+    print(result)
+    return JsonResponse(result, status=200)
+
 
 def register(request):
     if request.POST:
-        # username = '_'.join([request.POST.get('first_name'), request.POST.get('last_name')])
         username = request.POST.get('username')
         password = request.POST.get('password')
         repeat = request.POST.get('repeat')
         email = request.POST.get('email')
-        # print(username, password, repeat, email)
+
         if password != repeat:
             return render(request, 'index/register.html', {'message': 'passwords do not match!'})
         if password is None:
@@ -40,7 +87,6 @@ def login_cust(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
-        print(username, password)
         if user is not None:
             login(request, user)
             return redirect('/')
@@ -55,5 +101,30 @@ def diagram_update(request):
                   "2012", "2013", "2323"],}
     return JsonResponse(result, status=200)
 
-
-# 'login': ['dimon@gmail.com'], 'password': ['123456']}>
+def diagrams(request):
+    if request.user.username == 'user_one':
+         model = Ai_one
+    elif request.user.username == 'user_two':
+        model = Ai_two
+    else:
+        return redirect('/')
+    if request.POST:
+        if request.POST.get('update'):
+            id = int(request.POST.get('id'))
+            obj = model.objects.get(id=id)
+            obj.sts = 2
+            obj.save()
+        elif request.POST.get('create'):
+            current = request.POST.get('current', 0)
+            sts = request.POST.get('sts', 0)
+            model.objects.create(current=current, sts=sts)
+        elif request.POST.get('delete'):
+            id = int(request.POST.get('id'))
+            obj = model.objects.get(id=id)
+            obj.delete()
+    a = model.objects.all()
+    data = a
+    categories = [f"{i.id}" for i in a]
+    values = [float(i.current) for i in a]
+    form = Current_value()
+    return render(request, 'diagrams/diagrams.html', {'categories': categories, 'values': values, 'data': data, 'form':form})
