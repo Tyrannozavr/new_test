@@ -5,9 +5,12 @@ from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from diagrams.models import *
 from .forms import Current_value
+from time import time
+
 
 def index(request):
-    return render(request, 'index/index.html')
+    now = time()
+    return render(request, 'index/index.html', {'now': now})
 
 def charts(request):
     form = Current_value()

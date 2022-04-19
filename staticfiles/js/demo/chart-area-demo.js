@@ -137,18 +137,31 @@ var myLineChart = new Chart(ctx, {
     }
   }
 });
-addData(myLineChart, 'hello', 4);
+// myLineChart.data.labels = res.labels;
+// myLineChart.data.datasets = res.values;
+// myLineChart.update();
+
+// addData(myLineChart, 'hello', 1);
+// var step;
+// for (step = 0; step < 5; step++) {
+//   Запускается 5 раз, с шагом от 0 до 4.
+  // addData(myLineChart, 'hell', step);
+// }
+
+myLineChart.data.labels = res.labels;
+myLineChart.data.datasets.forEach((dataset) => {
+    dataset.data = res.values;
+});
+myLineChart.update();
+
 setTimeout(function() {
 getStatus(res.task_id);
-}, 30000);
+}, 3000);
 })
   .fail((err) => {
     console.log(err)
   });
 }
-
-
-
 getStatus(1)
 
 // myLineChart
