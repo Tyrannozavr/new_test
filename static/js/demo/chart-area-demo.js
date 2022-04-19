@@ -27,6 +27,36 @@ function number_format(number, decimals, dec_point, thousands_sep) {
   return s.join(dec);
 }
 
+function addData(chart, label, data) {
+    chart.data.labels.push(label);
+    chart.data.datasets.forEach((dataset) => {
+        dataset.data.push(data);
+    });
+    chart.update();
+}
+
+function updateConfigAsNewObject(chart) {
+    chart.options = {
+        responsive: true,
+        plugins: {
+            title: {
+                display: true,
+                text: 'Chart.js'
+            }
+        },
+        scales: {
+            x: {
+                display: true
+            },
+            y: {
+                display: true
+            }
+        }
+    };
+    chart.update();
+}
+
+
 
 function getStatus(taskID) {
   $.ajax({
@@ -41,8 +71,8 @@ var myLineChart = new Chart(ctx, {
   data: {
     labels:
     res.labels,
-    //     ["2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011",
-    //               "2012", "2013", "2323"],
+        // ["2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011",
+        //           "2012", "2013", "2323"],
     datasets: [{
       label: "Earnings",
       lineTension: 0.3,
@@ -128,9 +158,27 @@ var myLineChart = new Chart(ctx, {
     }
   }
 });
+// myLineChart.data.labels = res.labels;
+// myLineChart.data.datasets = res.values;
+// myLineChart.update();
+
+// addData(myLineChart, 'hello', 1);
+// var step;
+// for (step = 0; step < 5; step++) {
+//   Запускается 5 раз, с шагом от 0 до 4.
+  // addData(myLineChart, 'hell', step);
+// }
+
+myLineChart.data.labels = res.labels;
+myLineChart.data.datasets.forEach((dataset) => {
+    dataset.data = res.values;
+});
+myLineChart.update();
+updateConfigAsNewObject(myLineChart);
+
 setTimeout(function() {
 getStatus(res.task_id);
-}, 30000);
+}, 3000);
 })
   .fail((err) => {
     console.log(err)
@@ -138,4 +186,5 @@ getStatus(res.task_id);
 }
 getStatus(1)
 
+// myLineChart
 
