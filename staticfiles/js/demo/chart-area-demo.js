@@ -27,6 +27,15 @@ function number_format(number, decimals, dec_point, thousands_sep) {
   return s.join(dec);
 }
 
+function addData(chart, label, data) {
+    chart.data.labels.push(label);
+    chart.data.datasets.forEach((dataset) => {
+        dataset.data.push(data);
+    });
+    chart.update();
+}
+
+
 
 function getStatus(taskID) {
   $.ajax({
@@ -40,9 +49,9 @@ var myLineChart = new Chart(ctx, {
   type: 'line',
   data: {
     labels:
-    res.labels,
-    //     ["2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011",
-    //               "2012", "2013", "2323"],
+    // res.labels,
+        ["2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011",
+                  "2012", "2013", "2323"],
     datasets: [{
       label: "Earnings",
       lineTension: 0.3,
@@ -57,8 +66,8 @@ var myLineChart = new Chart(ctx, {
       pointHitRadius: 10,
       pointBorderWidth: 2,
       data:
-          res.values,
-      // [100, 320, 453, 234, 553, 665, 345, 123, 432, 545, 654, 345, 332, 456, 234],
+          // res.values,
+      [100, 320, 453, 234, 553, 665, 345, 123, 432, 545, 654, 345, 332, 456, 234],
     }],
   },
   options: {
@@ -128,6 +137,7 @@ var myLineChart = new Chart(ctx, {
     }
   }
 });
+addData(myLineChart, 'hello', 4);
 setTimeout(function() {
 getStatus(res.task_id);
 }, 30000);
@@ -136,6 +146,9 @@ getStatus(res.task_id);
     console.log(err)
   });
 }
+
+
+
 getStatus(1)
 
-
+// myLineChart
