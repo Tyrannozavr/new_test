@@ -178,7 +178,7 @@ updateConfigAsNewObject(myLineChart);
 
 setTimeout(function() {
 getStatus(res.task_id);
-}, 3000);
+}, 30000);
 })
   .fail((err) => {
     console.log(err)
