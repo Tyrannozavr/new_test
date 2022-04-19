@@ -35,6 +35,27 @@ function addData(chart, label, data) {
     chart.update();
 }
 
+function updateConfigAsNewObject(chart) {
+    chart.options = {
+        responsive: true,
+        plugins: {
+            title: {
+                display: true,
+                text: 'Chart.js'
+            }
+        },
+        scales: {
+            x: {
+                display: true
+            },
+            y: {
+                display: true
+            }
+        }
+    };
+    chart.update();
+}
+
 
 
 function getStatus(taskID) {
@@ -49,9 +70,9 @@ var myLineChart = new Chart(ctx, {
   type: 'line',
   data: {
     labels:
-    // res.labels,
-        ["2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011",
-                  "2012", "2013", "2323"],
+    res.labels,
+        // ["2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011",
+        //           "2012", "2013", "2323"],
     datasets: [{
       label: "Earnings",
       lineTension: 0.3,
@@ -66,8 +87,8 @@ var myLineChart = new Chart(ctx, {
       pointHitRadius: 10,
       pointBorderWidth: 2,
       data:
-          // res.values,
-      [100, 320, 453, 234, 553, 665, 345, 123, 432, 545, 654, 345, 332, 456, 234],
+          res.values,
+      // [100, 320, 453, 234, 553, 665, 345, 123, 432, 545, 654, 345, 332, 456, 234],
     }],
   },
   options: {
@@ -153,6 +174,7 @@ myLineChart.data.datasets.forEach((dataset) => {
     dataset.data = res.values;
 });
 myLineChart.update();
+updateConfigAsNewObject(myLineChart);
 
 setTimeout(function() {
 getStatus(res.task_id);
